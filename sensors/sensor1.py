@@ -43,7 +43,8 @@ class HelloSensor(Sensor):
                 self.sensor_service.dispatch(trigger="hello_st2.event1", payload=payload)
             except Exception as e:
                 self._logger.error(f"Error occurred: {e}")
-                self.sensor_service.dispatch(trigger="hello_st2.event1", payload={"error": str(e)})
+                payload = {"greeting": str(e), "count": int(count) + 1}
+                self.sensor_service.dispatch(trigger="hello_st2.event1", payload=payload)
             
 
     def cleanup(self):
