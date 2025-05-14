@@ -38,7 +38,7 @@ class HelloSensor(Sensor):
             try:
                 last_id = 12345
                 self.sensor_service.set_value(name='last_id', value=str(last_id))
-                kvp = self.sensor_service.get_value('cmdb.api_host')
+                kvp = self.sensor_service.get_value('last_id')
                 self.sensor_service.dispatch(trigger="hello_st2.event1", payload={str(kvp)})
             except Exception as e:
                 self._logger.error(f"Error occurred: {e}")
