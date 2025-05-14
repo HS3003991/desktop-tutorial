@@ -35,6 +35,15 @@ class HelloSensor(Sensor):
             self.sensor_service.dispatch(trigger="hello_st2.event1", payload=payload)
             self.sensor_service.set_value("hello_st2.count", payload["count"])
             eventlet.sleep(60)
+            try:
+                last_id = 12345
+                self.sensor_service.set_value(name='last_id', value=str(last_id))
+                kvp = self.sensor_service.get_value('cmdb.api_host')
+                self.sensor_service.dispatch(trigger="hello_st2.event1", payload={str(kvp)})
+            except Exception as e:
+                self._logger.error(f"Error occurred: {e}")
+                self.sensor_service.dispatch(trigger="hello_st2.event1", payload={"error": str(e)})
+            
 
     def cleanup(self):
         self._stop = True
