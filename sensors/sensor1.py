@@ -34,7 +34,7 @@ class HelloSensor(Sensor):
             payload = {"greeting": "Yo, StackStorm!", "count": int(count) + 1}
             self.sensor_service.dispatch(trigger="hello_st2.event1", payload=payload)
             self.sensor_service.set_value("hello_st2.count", payload["count"])
-            eventlet.sleep(60)
+            eventlet.sleep(10)
             try:
                 last_id = 12345
                 self.sensor_service.set_value(name='last_id', value=str(last_id))
