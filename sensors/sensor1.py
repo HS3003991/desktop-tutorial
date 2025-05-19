@@ -14,7 +14,7 @@
 # limitations under the License.
 
 import eventlet
-
+import csv
 from st2reactor.sensor.base import Sensor
 
 
@@ -36,10 +36,19 @@ class HelloSensor(Sensor):
             self.sensor_service.set_value("hello_st2.count", payload["count"])
             eventlet.sleep(10)
             try:
-                last_id = 12345
-                self.sensor_service.set_value(name='last_id', value=str(last_id))
-                kvp = self.sensor_service.get_value('last_id')
-                payload = {"greeting": str(kvp), "count": int(count) + 1}
+                # last_id = 12345
+                # self.sensor_service.set_value(name='last_id', value=str(last_id))
+                # kvp = self.sensor_service.get_value('last_id')
+
+                # CSV-Datei einlesen und als Liste von Dictionaries speichern
+                csv_datei = 'test.csv'
+                daten = []
+
+                with open(csv_datei, mode='r', encoding='utf-8') as file:
+                    reader = csv.DictReader(file)
+                    for zeile in reader:
+                        daten.append(zeile)
+                payload = {"greeting": str(daten), "count": int(count) + 1}
                 self.sensor_service.dispatch(trigger="hello_st2.event1", payload=payload)
             except Exception as e:
                 self._logger.error(f"Error occurred: {e}")
