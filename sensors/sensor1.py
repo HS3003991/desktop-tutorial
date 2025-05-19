@@ -41,7 +41,7 @@ class HelloSensor(Sensor):
                 # kvp = self.sensor_service.get_value('last_id')
 
                 # CSV-Datei einlesen und als Liste von Dictionaries speichern
-                csv_datei = 'test.csv'
+                csv_datei = 'sensors/test.csv'
                 daten = []
 
                 with open(csv_datei, mode='r', encoding='utf-8') as file:
