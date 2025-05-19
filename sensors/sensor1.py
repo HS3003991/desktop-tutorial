@@ -36,19 +36,19 @@ class HelloSensor(Sensor):
             self.sensor_service.set_value("hello_st2.count", payload["count"])
             eventlet.sleep(10)
             try:
-                # last_id = 12345
-                # self.sensor_service.set_value(name='last_id', value=str(last_id))
+                last_id = 12345
+                self.sensor_service.set_value(name='last_id', value=str(last_id))
                 # kvp = self.sensor_service.get_value('last_id')
-
+                kvp = self._datastore_service.get_value('last_id', local=True, decrypt=True, user='sensor_system')
                 # CSV-Datei einlesen und als Liste von Dictionaries speichern
-                csv_datei = '/opt/stackstorm/packs/hello_st2/sensors/test.csv'
-                daten = []
+                # csv_datei = '/opt/stackstorm/packs/hello_st2/sensors/test.csv'
+                # daten = []
 
-                with open(csv_datei, mode='r', encoding='utf-8') as file:
-                    reader = csv.DictReader(file)
-                    for zeile in reader:
-                        daten.append(zeile)
-                payload = {"greeting": str(daten), "count": int(count) + 1}
+                # with open(csv_datei, mode='r', encoding='utf-8') as file:
+                #     reader = csv.DictReader(file)
+                #     for zeile in reader:
+                #         daten.append(zeile)
+                payload = {"greeting": str(kvp), "count": int(count) + 1}
                 self.sensor_service.dispatch(trigger="hello_st2.event1", payload=payload)
             except Exception as e:
                 self._logger.error(f"Error occurred: {e}")
